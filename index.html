@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f7f5">
+
+  <title>KeyFlow | Typing Practice</title>
+
+  <!-- Connect CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- Header -->
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-mark">⌨</span> keyflow
+      </a>
+      <div class="top-actions">
+        <button type="button" id="sscOpenBtn" class="ssc-top-btn">SSC Exam Mode <span>↗</span></button>
+        <div class="top-meta">
+          <span class="live-dot"></span>
+          Your personal typing space
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero">
+      <div>
+        <p class="eyebrow">BUILD YOUR MUSCLE MEMORY</p>
+        <h1>Type with <span>confidence.</span></h1>
+        <p class="subhead">
+          Practise for 10 full minutes at each level. Finish one passage to receive a fresh sentence, with difficulty increasing as you progress.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <strong id="overallProgress">0%</strong>
+          <span>Course progress</span>
+        </div>
+        <div class="stat">
+          <strong id="bestWpm">—</strong>
+          <span>Best WPM</span>
+        </div>
+        <div class="stat">
+          <strong id="completedCount">0/10</strong>
+          <span>Levels passed</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main workspace -->
+    <section class="workspace">
+
+      <!-- Level sidebar -->
+      <aside class="sidebar">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR COURSE</p>
+            <h2>10 levels</h2>
+          </div>
+          <span class="course-icon">✦</span>
+        </div>
+
+        <div id="levelList" class="level-list"></div>
+
+        <div class="tip-card">
+          <span>✧</span>
+          <div>
+            <b>Small tip</b>
+            <p>
+              Keep your fingers on the home row.
+              Look at the screen, not your keyboard.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Typing practice panel -->
+      <section class="practice-panel">
+
+        <div class="lesson-head">
+          <div>
+            <p class="eyebrow" id="levelEyebrow">
+              LEVEL 01 · HOME ROW
+            </p>
+            <h2 id="lessonTitle">Meet the home row</h2>
+            <p id="lessonDescription" class="lesson-desc">
+              Learn the keys your fingers return to.
+            </p>
+          </div>
+
+          <div class="pass-chip" id="passChip">
+            Pass: 90% accuracy
+          </div>
+        </div>
+
+        <!-- Performance statistics -->
+        <div class="metrics">
+          <div>
+            <span>TIME</span>
+            <strong id="timer">00:00</strong>
+          </div>
+          <div>
+            <span>WPM</span>
+            <strong id="wpm">0</strong>
+          </div>
+          <div>
+            <span>ACCURACY</span>
+            <strong id="accuracy">100%</strong>
+          </div>
+          <div>
+            <span>ERRORS</span>
+            <strong id="errors">0</strong>
+          </div>
+        </div>
+
+        <!-- Typing area -->
+        <div class="typing-card">
+
+          <div class="typing-card-top">
+            <span>TYPE THE PASSAGE BELOW</span>
+            <button id="restartBtn" class="text-btn">
+              ↻ Restart
+            </button>
+          </div>
+
+          <div id="prompt" class="prompt"></div>
+
+          <textarea
+            id="typingInput"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            placeholder="Click here and start typing..."
+          ></textarea>
+
+          <div class="typing-footer">
+            <span id="typingHint">
+              Your progress is checked as you type.
+            </span>
+            <span id="charCount">0 / 0</span>
+          </div>
+
+        </div>
+
+        <!-- Keyboard guide -->
+        <div class="keyboard-wrap">
+
+          <div class="keyboard-title">
+            <div>
+              <p class="eyebrow">KEYBOARD GUIDE</p>
+              <h3>Know your keys</h3>
+            </div>
+
+            <span class="key-legend">
+              <i></i> Focus keys
+            </span>
+          </div>
+
+          <div id="keyboard" class="keyboard"></div>
+
+          <p class="finger-note" id="fingerNote">
+            Rest your fingers on A S D F and J K L ;
+          </p>
+
+        </div>
+
+        <!-- Result section -->
+        <div class="result-bar">
+
+          <div>
+            <strong id="resultTitle">
+              Ready when you are
+            </strong>
+            <p id="resultMessage">
+              Complete the passage to see your results.
+            </p>
+          </div>
+
+          <button id="nextBtn" disabled>
+            Next level <span>→</span>
+          </button>
+
+        </div>
+
+      </section>
+    </section>
+
+
+  <!-- SSC exam simulator overlay -->
+  <section id="sscOverlay" class="ssc-overlay" aria-hidden="true">
+    <div class="ssc-modal">
+      <div class="ssc-modal-head">
+        <div>
+          <p class="eyebrow">KEYFLOW EXAM CENTRE</p>
+          <h2>SSC Exam Simulator</h2>
+          <p class="ssc-subtitle">Choose a typing or data-entry skill test and practise in an exam-style screen.</p>
+        </div>
+        <button type="button" id="sscCloseBtn" class="ssc-close" aria-label="Close SSC simulator">×</button>
+      </div>
+
+      <div id="sscSetup" class="ssc-setup">
+        <label class="ssc-field">
+          <span>Select SSC test</span>
+          <select id="sscExamSelect">
+            <option value="chsl-en">SSC CHSL · LDC/JSA · English</option>
+            <option value="chsl-hi">SSC CHSL · LDC/JSA · Hindi</option>
+            <option value="cgl-dest">SSC CGL · DEST</option>
+            <option value="deo-8k">SSC CHSL · DEO · 8,000 KDPH</option>
+            <option value="deo-15k">SSC CHSL · DEO Grade A · 15,000 KDPH</option>
+            <option value="selection">SSC Selection Post · Custom skill test</option>
+          </select>
+        </label>
+
+        <div id="sscExamInfo" class="ssc-exam-info"></div>
+
+        <div id="sscCustomFields" class="ssc-custom-fields" hidden>
+          <label class="ssc-field">
+            <span>Test duration</span>
+            <select id="sscCustomDuration">
+              <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="5">5 minutes (practice)</option>
+            </select>
+          </label>
+          <label class="ssc-field">
+            <span>Target WPM</span>
+            <select id="sscCustomTarget">
+              <option value="35">35 WPM (English practice)</option>
+              <option value="30">30 WPM (Hindi practice)</option>
+              <option value="40">40 WPM</option>
+              <option value="0">No fixed target</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="ssc-notice">
+          <strong>Practice material notice</strong>
+          <p>Passages in this simulator are original SSC-style practice passages, not claimed to be official SSC PYQs. Check the current notification for the exact post-wise test rules.</p>
+        </div>
+        <button type="button" id="sscStartBtn" class="ssc-primary-btn">Start exam <span>→</span></button>
+
+        <div class="ssc-resources">
+          <strong>Reference and practice resources</strong>
+          <a href="https://ssc.gov.in/" target="_blank" rel="noopener">Official SSC website and notifications ↗</a>
+          <a href="https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_of_adv_chsl_2025.pdf" target="_blank" rel="noopener">SSC CHSL 2025 official notice (PDF) ↗</a>
+          <a href="https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_of_adv_cgl_2025.pdf" target="_blank" rel="noopener">SSC CGL 2025 official notice (PDF) ↗</a>
+          <a href="https://sarkariexamtyping.com/ssc-typing-test-passages.html" target="_blank" rel="noopener">Additional SSC typing passages ↗</a>
+        </div>
+      </div>
+
+      <div id="sscTestArea" class="ssc-test-area" hidden>
+        <div class="ssc-exam-banner">
+          <div>
+            <span id="sscTestName">SSC CHSL · LDC/JSA</span>
+            <small id="sscTestSubline">English typing test</small>
+          </div>
+          <div class="ssc-countdown">
+            <small>TIME LEFT</small>
+            <strong id="sscTimer">10:00</strong>
+          </div>
+        </div>
+        <div class="ssc-metrics">
+          <div><small>WPM</small><strong id="sscWpm">0</strong></div>
+          <div><small>ACCURACY</small><strong id="sscAccuracy">100%</strong></div>
+          <div><small>KEYS ENTERED</small><strong id="sscKeys">0</strong></div>
+          <div><small>ERRORS</small><strong id="sscErrors">0</strong></div>
+        </div>
+        <div class="ssc-instructions">
+          Type the passage exactly as shown. The timer begins with your first keystroke. You cannot paste text into the test box.
+        </div>
+        <div id="sscPassage" class="ssc-passage"></div>
+        <textarea id="sscTypingInput" class="ssc-input" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Click here and start typing..."></textarea>
+        <div class="ssc-test-actions">
+          <span id="sscProgressText">Passage 1</span>
+          <button type="button" id="sscEndBtn" class="ssc-end-btn">Finish test</button>
+        </div>
+        <div id="sscResult" class="ssc-result" hidden></div>
+        <button type="button" id="sscBackBtn" class="ssc-back-btn" hidden>Back to test selection</button>
+      </div>
+    </div>
+  </section>
+
+    <footer>
+      Made for steady progress. Practice a little every day.
+    </footer>
+
+    <footer>
+      <strong style="font-size: 12px; font-weight: 800;">
+        &copy; 2026 Satyam Kumar. All Rights Reserved. | KeyFlow
+      </strong>
+    </footer>
+
+  </main>
+
+  <!-- Connect JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
